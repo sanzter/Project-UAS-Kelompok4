@@ -43,13 +43,22 @@ class User extends Authenticatable
     // Role Helpers
     // -------------------------------------------------------
 
-    public function isAdmin(): bool { return $this->role === 'admin'; }
-    public function isGuru(): bool  { return $this->role === 'guru';  }
-    public function isSiswa(): bool { return $this->role === 'siswa'; }
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+    public function isGuru(): bool
+    {
+        return $this->role === 'guru';
+    }
+    public function isSiswa(): bool
+    {
+        return $this->role === 'siswa';
+    }
 
     public function roleName(): string
     {
-        return match($this->role) {
+        return match ($this->role) {
             'admin' => 'Administrator',
             'guru'  => 'Guru',
             'siswa' => 'Siswa',
@@ -59,11 +68,16 @@ class User extends Authenticatable
 
     public function dashboardRoute(): string
     {
-        return match($this->role) {
+        return match ($this->role) {
             'admin' => route('admin.dashboard'),
             'guru'  => route('guru.dashboard'),
             'siswa' => route('siswa.dashboard'),
             default => route('login'),
         };
+    }
+
+    public function kelasDiampu()
+    {
+        return $this->hasMany(Kelas::class, 'guru_id');
     }
 }

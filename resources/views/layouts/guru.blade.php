@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simpebet Guru — @yield('page-title', 'Dashboard')</title>
+    <title>Simpsonv Guru — @yield('page-title', 'Dashboard')</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -28,7 +28,7 @@
                     <i class="fas fa-chalkboard-teacher text-white text-lg"></i>
                 </div>
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800 tracking-tight">Simpebet</h2>
+                    <h2 class="text-lg font-bold text-slate-800 tracking-tight">Simpsonv</h2>
                     <span class="guru-badge">GURU</span>
                 </div>
             </div>
@@ -51,7 +51,7 @@
             </a>
             <a href="{{ route('guru.kelas') }}"
                class="guru-sidebar-item {{ request()->routeIs('guru.kelas') ? 'active' : '' }}">
-                <i class="fas fa-users-rectangle mr-3 w-5 text-center text-emerald-400"></i> Kelas Saya
+                <i class="fas fa-school mr-3 w-5 text-center text-emerald-400"></i></i> Kelas Saya
             </a>
         </nav>
 

@@ -33,6 +33,7 @@ Route::middleware(['auth', 'admin'])
     ->group(function () {
 
     Route::get('/dashboard',   [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::post('/kelas', [AdminController::class, 'storeKelas'])->name('store-kelas');
 
     // Kelola user
     Route::get('/kelola-user', [AdminController::class, 'kelolaUser'])->name('kelola-user');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kelas;
 use App\Models\User;
 use App\Models\Grade;
 use Illuminate\Http\Request;
@@ -15,15 +16,15 @@ class AdminController extends Controller
     public function dashboard()
     {
         return view('admin.dashboard', [
-            'totalUser'   => User::count(),
-            'totalGuru'   => User::where('role', 'guru')->count(),
-            'totalSiswa'  => User::where('role', 'siswa')->count(),
-            'rataRata'    => round(Grade::avg('nilai') ?? 0, 1),
-            'totalNilai'  => Grade::count(),
+            'totalUser'   => User::query()->count(),
+            'totalGuru'   => User::query()->where('role', 'guru')->count(),
+            'totalSiswa'  => User::query()->where('role', 'siswa')->count(),
+            'rataRata'    => round(Grade::query()->avg('nilai') ?? 0, 1),
+            'totalNilai'  => Grade::query()->count(),
             'totalKelas'  => 12,
-            'totalMapel'  => Grade::distinct('mata_pelajaran')->count('mata_pelajaran'),
-            'siswaRendah' => Grade::where('nilai', '<', 75)->count(),
-            'userTerbaru' => User::latest()->take(5)->get(),
+            'totalMapel'  => Grade::query()->distinct('mata_pelajaran')->count('mata_pelajaran'),
+            'siswaRendah' => Grade::query()->where('nilai', '<', 75)->count(),
+            'userTerbaru' => User::query()->latest()->take(5)->get(),
         ]);
     }
 
@@ -32,10 +33,10 @@ class AdminController extends Controller
     // -------------------------------------------------------
     public function kelolaUser()
     {
-        $users = User::when(
-                request('role'),
-                fn($q) => $q->where('role', request('role'))
-            )
+        $users = User::query()->when(
+            request('role'),
+            fn($q) => $q->where('role', request('role'))
+        )
             ->latest()
             ->paginate(15);
 
@@ -78,7 +79,10 @@ class AdminController extends Controller
         $request->validate([
             'name'     => 'required|string|max:255',
             'username' => [
-                'required', 'string', 'min:3', 'max:30',
+                'required',
+                'string',
+                'min:3',
+                'max:30',
                 'unique:users,username',
                 'regex:/^[a-zA-Z0-9._]+$/',
             ],
@@ -108,15 +112,19 @@ class AdminController extends Controller
     // -------------------------------------------------------
     public function analitik()
     {
-        $gradesData  = Grade::select('nama_siswa', 'nilai')->latest()->take(20)->get();
-        $distribusi  = Grade::selectRaw('mata_pelajaran, count(*) as total')
-                            ->groupBy('mata_pelajaran')
-                            ->pluck('total', 'mata_pelajaran');
-        $topSubject  = $distribusi->isNotEmpty() ? $distribusi->keys()->first() : '-';
-        $totalGrades = Grade::count();
+        $gradesData  = Grade::query()->select('nama_siswa', 'nilai')->latest()->take(20)->get();
+        $distribusi = Grade::query()
+            ->select('mata_pelajaran', \Illuminate\Support\Facades\DB::raw('count(*) as total'))
+            ->groupBy('mata_pelajaran')
+            ->pluck('total', 'mata_pelajaran');
+        $topSubject = $distribusi->count() > 0 ? $distribusi->keys()->first() : '-';
+        $totalGrades = Grade::query()->count();
 
         return view('admin.analitik', compact(
-            'gradesData', 'distribusi', 'topSubject', 'totalGrades'
+            'gradesData',
+            'distribusi',
+            'topSubject',
+            'totalGrades'
         ));
     }
 
@@ -125,15 +133,37 @@ class AdminController extends Controller
     // -------------------------------------------------------
     public function nilai()
     {
-        $grades = Grade::latest()->paginate(20);
+        $grades = Grade::query()->latest()->paginate(20);
         return view('admin.nilai', compact('grades'));
     }
 
     // -------------------------------------------------------
     // Kelas
     // -------------------------------------------------------
+
+
     public function kelas()
     {
-        return view('admin.kelas');
+        $kelasList = Kelas::with('guru')->latest()->get();
+        $gurus = User::query()->where('role', 'guru')->orderBy('name')->get();
+
+        return view('admin.kelas', compact('kelasList', 'gurus'));
+    }
+
+    public function storeKelas(Request $request)
+    {
+        $request->validate([
+            'nama_kelas'     => 'required|string|max:255',
+            'guru_id'        => 'nullable|exists:users,id',
+            'mata_pelajaran' => 'required|string|max:255',
+        ]);
+
+        Kelas::create([
+            'nama_kelas'     => $request->nama_kelas,
+            'guru_id'        => $request->guru_id,
+            'mata_pelajaran' => $request->mata_pelajaran,
+        ]);
+
+        return back()->with('success', 'Data kelas berhasil ditambahkan!');
     }
 }

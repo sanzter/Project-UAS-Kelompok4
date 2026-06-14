@@ -9,7 +9,7 @@ class NilaiController extends Controller
 {
     public function index()
     {
-        $grades = Grade::latest()->get();
+        $grades = Grade::queue()->latest()->get();
         return view('dashboard.list', compact('grades'));
     }
 

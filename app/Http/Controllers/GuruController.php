@@ -14,12 +14,14 @@ class GuruController extends Controller
     // -------------------------------------------------------
     public function dashboard()
     {
+        $guru = Auth::user();
+
         return view('guru.dashboard', [
-            'totalSiswa'   => User::where('role', 'siswa')->count(),
-            'totalKelas'   => 4,
-            'rataRata'     => round(Grade::avg('nilai') ?? 0, 1),
-            'dibawahKkm'   => Grade::where('nilai', '<', 75)->count(),
-            'nilaiTerbaru' => Grade::latest()->take(5)->get(),
+            'totalSiswa'   => User::query()->where('role', 'siswa')->count(),
+            'totalKelas'   => $guru->kelasDiampu()->count(),
+            'rataRata'     => round(Grade::query()->avg('nilai') ?? 0, 1),
+            'dibawahKkm'   => Grade::query()->where('nilai', '<', 75)->count(),
+            'nilaiTerbaru' => Grade::query()->latest()->take(5)->get(),
         ]);
     }
 
@@ -29,7 +31,7 @@ class GuruController extends Controller
     public function inputNilai()
     {
         // Ambil daftar nama siswa untuk dropdown
-        $siswas = User::where('role', 'siswa')->orderBy('name')->get();
+        $siswas = User::query()->where('role', 'siswa')->orderBy('name')->get();
         return view('guru.input-nilai', compact('siswas'));
     }
 
@@ -57,13 +59,14 @@ class GuruController extends Controller
     // -------------------------------------------------------
     public function daftarNilai()
     {
-        $grades = Grade::latest()->paginate(20);
+        $grades = Grade::query()->latest()->paginate(20);
         return view('guru.daftar-nilai', compact('grades'));
     }
 
     public function destroyNilai(Grade $grade)
     {
         $grade->delete();
+
         return back()->with('success', 'Data nilai berhasil dihapus.');
     }
 
@@ -72,6 +75,7 @@ class GuruController extends Controller
     // -------------------------------------------------------
     public function kelas()
     {
-        return view('guru.kelas');
+        $kelasSaya = Auth::user()->kelasDiampu; // Ambil data dari relasi
+        return view('guru.kelas', compact('kelasSaya'));
     }
 }

@@ -1,0 +1,101 @@
+@extends('layouts.admin')
+@section('page-title', 'Manajemen Kelas')
+@section('admin-content')
+
+<div class="space-y-8">
+    {{-- Notifikasi Sukses --}}
+    @if(session('success'))
+    <div class="bg-violet-100 border border-violet-200 text-violet-700 px-6 py-4 rounded-xl flex items-center">
+        <i class="fas fa-check-circle mr-3 text-lg"></i>
+        <span class="font-bold text-sm">{{ session('success') }}</span>
+    </div>
+    @endif
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        {{-- FORM TAMBAH KELAS (Kolom Kiri) --}}
+        <div class="lg:col-span-1">
+            <div class="card-admin p-8 sticky top-8">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="w-10 h-10 bg-violet-100 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-plus text-violet-600"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800">Buat Kelas Baru</h3>
+                </div>
+
+                <form action="{{ route('admin.store-kelas') }}" method="POST">
+                    @csrf
+                    <div class="space-y-5">
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">Nama Kelas</label>
+                            <input type="text" name="nama_kelas" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-violet-500 outline-none transition text-sm" placeholder="Contoh: XII IPA 1">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">Mata Pelajaran</label>
+                            <input type="text" name="mata_pelajaran" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-violet-500 outline-none transition text-sm" placeholder="Contoh: Matematika">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">Pilih Guru Pengajar</label>
+                            <select name="guru_id" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-violet-500 outline-none transition text-sm">
+                                <option value="">-- Pilih Guru --</option>
+                                @foreach($gurus as $guru)
+                                    <option value="{{ $guru->id }}">{{ $guru->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <button type="submit" class="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 px-4 rounded-xl transition shadow-lg shadow-violet-500/30">
+                            Simpan Kelas
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {{-- DAFTAR KELAS (Kolom Kanan) --}}
+        <div class="lg:col-span-2">
+            <div class="card-admin overflow-hidden">
+                <div class="p-6 border-b border-slate-100">
+                    <h3 class="text-lg font-bold text-slate-800">Daftar Kelas & Penugasan</h3>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="bg-slate-50">
+                                <th class="px-6 py-4 text-xs font-black text-slate-400 uppercase tracking-widest">Kelas</th>
+                                <th class="px-6 py-4 text-xs font-black text-slate-400 uppercase tracking-widest">Mata Pelajaran</th>
+                                <th class="px-6 py-4 text-xs font-black text-slate-400 uppercase tracking-widest">Guru Pengajar</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-50">
+                            @forelse($kelasList as $kelas)
+                            <tr class="hover:bg-slate-50 transition">
+                                <td class="px-6 py-4 font-bold text-slate-800">{{ $kelas->nama_kelas }}</td>
+                                <td class="px-6 py-4 font-medium text-slate-500">{{ $kelas->mata_pelajaran }}</td>
+                                <td class="px-6 py-4">
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-violet-50 text-violet-700">
+                                        <i class="fas fa-chalkboard-teacher mr-2"></i>
+                                        {{ $kelas->guru ? $kelas->guru->name : 'Belum ditugaskan' }}
+                                    </span>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="3" class="px-6 py-12 text-center text-slate-400">
+                                    <i class="fas fa-school text-3xl mb-3 block text-slate-300"></i>
+                                    Belum ada data kelas yang ditambahkan.
+                                </td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@endsection
