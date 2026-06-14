@@ -38,6 +38,7 @@
         "APP_ENV": "production",
         "APP_DEBUG": "true",
         "APP_URL": "",
+        "APP_KEY": "base64:00kRy90crS/G9jE1EGMRdCvE4C2ZiVUUgYtom3guxSI=",
  
         "APP_CONFIG_CACHE": "/tmp/config.php",
         "APP_EVENTS_CACHE": "/tmp/events.php",
