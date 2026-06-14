@@ -12,7 +12,7 @@
             <div class="w-20 h-20 bg-cyan-500 rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg">
                 <i class="fas fa-graduation-cap text-white text-3xl"></i>
             </div>
-            <h1 class="text-3xl font-bold text-slate-800">Simpebet</h1>
+            <h1 class="text-3xl font-bold text-slate-800">Simpsonv</h1>
             <p class="text-slate-500 mt-2">Silakan login untuk melanjutkan</p>
         </div>
 
