@@ -22,7 +22,15 @@ Route::post('/logout', [AuthController::class, 'logout'])
     ->name('logout');
 
 // Redirect root ke login
-Route::get('/', fn() => redirect()->route('login'));
+Route::get('/', function () {
+    if (auth()->check()) {
+        $user = auth()->user();
+        if ($user->role === 'admin') return redirect()->route('admin.dashboard');
+        if ($user->role === 'guru')  return redirect()->route('guru.dashboard');
+        return redirect()->route('siswa.dashboard');
+    }
+    return redirect()->route('login');
+});
 
 // ============================================================
 // ADMIN
