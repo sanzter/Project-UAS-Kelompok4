@@ -166,4 +166,34 @@ class AdminController extends Controller
 
         return back()->with('success', 'Data kelas berhasil ditambahkan!');
     }
+
+    // -------------------------------------------------------
+    // Reset Kelas Siswa
+    // -------------------------------------------------------
+    public function resetKelasSiswa($id)
+    {
+        $siswa = \App\Models\User::findOrFail($id);
+        
+        // Pastikan yang direset benar-benar role siswa
+        if ($siswa->role === 'siswa') {
+            // Kosongkan kelasnya
+            $siswa->kelas_id = null;
+            $siswa->save();
+
+            return back()->with('success', "Kelas untuk siswa {$siswa->name} berhasil direset. Siswa akan diminta memilih kelas baru saat login.");
+        }
+
+        return back()->with('error', 'Hanya akun siswa yang dapat direset kelasnya.');
+    }
+
+    // -------------------------------------------------------
+    // Halaman Kelola Siswa
+    // -------------------------------------------------------
+    public function kelolaSiswa()
+    {
+        // Mengambil semua user yang memiliki role 'siswa', beserta data kelasnya
+        $siswas = \App\Models\User::where('role', 'siswa')->with('kelas')->latest()->get();
+        
+        return view('admin.kelola-siswa', compact('siswas'));
+    }
 }
