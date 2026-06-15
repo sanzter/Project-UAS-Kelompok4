@@ -46,7 +46,35 @@
                             </select>
                         </div>
 
-                        <button type="submit" class="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 px-4 rounded-xl transition shadow-lg shadow-violet-500/30">
+                        {{-- INPUT JADWAL BARU --}}
+                        <hr class="border-slate-200 my-4">
+                        
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">Hari</label>
+                            <select name="hari" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-violet-500 outline-none transition text-sm">
+                                <option value="">-- Pilih Hari --</option>
+                                <option value="Senin">Senin</option>
+                                <option value="Selasa">Selasa</option>
+                                <option value="Rabu">Rabu</option>
+                                <option value="Kamis">Kamis</option>
+                                <option value="Jumat">Jumat</option>
+                                <option value="Sabtu">Sabtu</option>
+                            </select>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">Jam Mulai</label>
+                                <input type="time" name="jam_mulai" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-violet-500 outline-none transition text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">Jam Selesai</label>
+                                <input type="time" name="jam_selesai" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-violet-500 outline-none transition text-sm">
+                            </div>
+                        </div>
+                        {{-- END INPUT JADWAL BARU --}}
+
+                        <button type="submit" class="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 px-4 rounded-xl transition shadow-lg shadow-violet-500/30 mt-4">
                             Simpan Kelas
                         </button>
                     </div>
@@ -68,6 +96,7 @@
                                 <th class="px-6 py-4 text-xs font-black text-slate-400 uppercase tracking-widest">Kelas</th>
                                 <th class="px-6 py-4 text-xs font-black text-slate-400 uppercase tracking-widest">Mata Pelajaran</th>
                                 <th class="px-6 py-4 text-xs font-black text-slate-400 uppercase tracking-widest">Guru Pengajar</th>
+                                <th class="px-6 py-4 text-xs font-black text-slate-400 uppercase tracking-widest">Jadwal</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-50">
@@ -81,10 +110,21 @@
                                         {{ $kelas->guru ? $kelas->guru->name : 'Belum ditugaskan' }}
                                     </span>
                                 </td>
+                                <td class="px-6 py-4">
+                                    @if($kelas->hari && $kelas->jam_mulai && $kelas->jam_selesai)
+                                        <span class="block font-bold text-slate-700 text-sm">{{ $kelas->hari }}</span>
+                                        <span class="text-xs text-slate-500">
+                                            {{ \Carbon\Carbon::parse($kelas->jam_mulai)->format('H:i') }} - 
+                                            {{ \Carbon\Carbon::parse($kelas->jam_selesai)->format('H:i') }}
+                                        </span>
+                                    @else
+                                        <span class="text-xs italic text-slate-400">Belum diatur</span>
+                                    @endif
+                                </td>
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="3" class="px-6 py-12 text-center text-slate-400">
+                                <td colspan="4" class="px-6 py-12 text-center text-slate-400">
                                     <i class="fas fa-school text-3xl mb-3 block text-slate-300"></i>
                                     Belum ada data kelas yang ditambahkan.
                                 </td>
