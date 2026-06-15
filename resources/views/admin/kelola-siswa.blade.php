@@ -35,12 +35,23 @@
                         <td class="px-6 py-4 text-center">
                             {{-- Tombol muncul hanya jika status_keluar true --}}
                             @if ($siswa->status_keluar)
-                                <form action="{{ route('admin.siswa.reset-kelas', $siswa->id) }}" method="POST" onsubmit="return confirm('Setujui permintaan keluar dan reset kelas siswa ini?');">
-                                    @csrf
-                                    <button type="submit" class="px-3 py-1.5 bg-green-500 text-white rounded-lg text-xs font-bold hover:bg-green-600">
-                                        Setujui & Reset
-                                    </button>
-                                </form>
+                                <div class="flex items-center justify-center space-x-2">
+                                    {{-- Tombol Setuju --}}
+                                    <form action="{{ route('siswa.reset-kelas', $siswa->id) }}" method="POST" onsubmit="return confirm('Setujui permintaan keluar dan reset kelas siswa ini?');">
+                                        @csrf
+                                        <button type="submit" class="px-3 py-1.5 bg-green-500 text-white rounded-lg text-xs font-bold hover:bg-green-600 transition">
+                                            Setujui
+                                        </button>
+                                    </form>
+
+                                    {{-- Tombol Tolak --}}
+                                    <form action="{{ route('siswa.tolak-keluar', $siswa->id) }}" method="POST" onsubmit="return confirm('Tolak permintaan keluar siswa ini? Siswa akan tetap berada di kelasnya saat ini.');">
+                                        @csrf
+                                        <button type="submit" class="px-3 py-1.5 bg-rose-500 text-white rounded-lg text-xs font-bold hover:bg-rose-600 transition">
+                                            Tolak
+                                        </button>
+                                    </form>
+                                </div>
                             @else
                                 <span class="text-xs text-gray-400">-</span>
                             @endif

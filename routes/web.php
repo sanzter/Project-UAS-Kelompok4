@@ -43,9 +43,12 @@ Route::middleware(['auth', 'admin'])
     Route::get('/dashboard',   [AdminController::class, 'dashboard'])->name('dashboard');
     Route::post('/kelas', [AdminController::class, 'storeKelas'])->name('store-kelas');
     Route::post('/siswa/{id}/reset-kelas', [\App\Http\Controllers\AdminController::class, 'resetKelasSiswa'])->name('siswa.reset-kelas');
-    Route::get('/admin/kelola-siswa', [\App\Http\Controllers\AdminController::class, 'kelolaSiswa'])->name('admin.kelola-siswa');
+    Route::get('/kelola-siswa', [\App\Http\Controllers\AdminController::class, 'kelolaSiswa'])->name('admin.kelola-siswa');
     Route::get('/permintaan-keluar', [AdminController::class, 'kelolaSiswa'])->name('permintaan-keluar');
     Route::delete('/kelas/{id}', [AdminController::class, 'destroyKelas'])->name('destroy-kelas');
+
+    // Rute untuk menolak permintaan keluar
+    Route::post('/siswa/{id}/tolak-keluar', [\App\Http\Controllers\AdminController::class, 'tolakKeluarSiswa'])->name('siswa.tolak-keluar');
 
     // Kelola user
     Route::get('/kelola-user', [AdminController::class, 'kelolaUser'])->name('kelola-user');

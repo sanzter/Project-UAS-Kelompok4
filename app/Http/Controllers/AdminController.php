@@ -204,6 +204,25 @@ class AdminController extends Controller
     }
 
     // -------------------------------------------------------
+    // Tolak Permintaan Keluar Siswa
+    // -------------------------------------------------------
+    public function tolakKeluarSiswa($id)
+    {
+        $siswa = \App\Models\User::findOrFail($id);
+
+        if ($siswa->role === 'siswa') {
+            // Kita HANYA mereset status keluarnya menjadi false
+            // Kelas ID tidak dihapus (null), sehingga siswa tetap di kelas aslinya
+            $siswa->status_keluar = false;
+            $siswa->save();
+
+            return back()->with('success', "Permintaan keluar untuk siswa {$siswa->name} berhasil ditolak.");
+        }
+
+        return back()->with('error', 'Aksi tidak valid.');
+    }
+
+    // -------------------------------------------------------
     // Halaman Kelola Siswa
     // -------------------------------------------------------
     public function kelolaSiswa()
