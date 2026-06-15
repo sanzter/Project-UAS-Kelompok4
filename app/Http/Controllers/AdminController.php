@@ -209,4 +209,16 @@ class AdminController extends Controller
 
         return view('admin.kelola-siswa', compact('siswas'));
     }
+
+    public function destroyKelas($id)
+    {
+        $kelas = Kelas::findOrFail($id);
+        
+        // Simpan nama kelas untuk notifikasi
+        $nama_kelas = $kelas->nama_kelas;
+        
+        $kelas->delete();
+
+        return back()->with('success', "Kelas {$nama_kelas} berhasil dihapus!");
+    }
 }

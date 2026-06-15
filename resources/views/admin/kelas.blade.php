@@ -97,6 +97,7 @@
                                 <th class="px-6 py-4 text-xs font-black text-slate-400 uppercase tracking-widest">Mata Pelajaran</th>
                                 <th class="px-6 py-4 text-xs font-black text-slate-400 uppercase tracking-widest">Guru Pengajar</th>
                                 <th class="px-6 py-4 text-xs font-black text-slate-400 uppercase tracking-widest">Jadwal</th>
+                                <th class="px-6 py-4 text-xs font-black text-slate-400 uppercase tracking-widest text-center">Aksi</th> 
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-50">
@@ -121,10 +122,20 @@
                                         <span class="text-xs italic text-slate-400">Belum diatur</span>
                                     @endif
                                 </td>
+                                
+                                <td class="px-6 py-4 text-center">
+                                    <form action="{{ route('admin.destroy-kelas', $kelas->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus kelas {{ $kelas->nama_kelas }} - {{ $kelas->mata_pelajaran }}?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-rose-500 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 w-8 h-8 rounded-lg transition flex items-center justify-center mx-auto" title="Hapus Kelas">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="4" class="px-6 py-12 text-center text-slate-400">
+                                <td colspan="5" class="px-6 py-12 text-center text-slate-400">
                                     <i class="fas fa-school text-3xl mb-3 block text-slate-300"></i>
                                     Belum ada data kelas yang ditambahkan.
                                 </td>
