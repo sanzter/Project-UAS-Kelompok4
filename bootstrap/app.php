@@ -12,7 +12,12 @@ $app = Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        // Biarkan isi middleware Anda di sini jika ada
+        // Mendaftarkan alias middleware Anda
+        $middleware->alias([
+            'admin' => \App\Http\Middleware\IsAdmin::class, // Sesuaikan jika nama file Anda berbeda
+            'guru'  => \App\Http\Middleware\IsGuru::class,
+            'siswa' => \App\Http\Middleware\IsSiswa::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         // Biarkan isi exceptions Anda di sini jika ada
