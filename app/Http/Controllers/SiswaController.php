@@ -55,7 +55,17 @@ class SiswaController extends Controller
     // -------------------------------------------------------
     public function kelas()
     {
-        return view('siswa.kelas');
+        $user = auth()->user();
+
+        // Jika siswa belum masuk kelas, arahkan ke pilih kelas
+        if (!$user->kelas_id) {
+            return redirect()->route('siswa.pilih-kelas');
+        }
+
+        // Ambil data kelas beserta guru pengampu dan daftar siswa di kelas tersebut
+        $kelas = \App\Models\Kelas::with(['guru', 'siswa'])->findOrFail($user->kelas_id);
+
+        return view('siswa.kelas', compact('kelas'));
     }
 
     // -------------------------------------------------------
