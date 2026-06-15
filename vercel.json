@@ -1,43 +1,23 @@
 {
     "version": 2,
-      "framework": null,
+    "framework": null,
     "functions": {
         "api/index.php": { "runtime": "vercel-php@0.7.4" }
     },
     "routes": [
-        {
-            "src": "/assets/(.*)",
-            "dest": "/public/assets/"
-        },
-        {
-            "src": "/build/(.*)",
-            "dest": "/public/build/"
-        },
-        {
-            "src": "/css/(.*)",
-            "dest": "/public/css/"
-        },
-        {
-            "src": "/images/(.*)",
-            "dest": "/public/images/"
-        },
-        {
-            "src": "/js/(.*)",
-            "dest": "/public/js/"
-        },
-        {
-            "src": "/vendors/(.*)",
-            "dest": "/public/vendors/"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "/api/index.php"
-        }
+        { "src": "/assets/(.*)", "dest": "/public/assets/" },
+        { "src": "/build/(.*)", "dest": "/public/build/" },
+        { "src": "/css/(.*)", "dest": "/public/css/" },
+        { "src": "/images/(.*)", "dest": "/public/images/" },
+        { "src": "/js/(.*)", "dest": "/public/js/" },
+        { "src": "/vendors/(.*)", "dest": "/public/vendors/" },
+        { "src": "/(.*)", "dest": "/api/index.php" }
     ],
     "env": {
         "APP_ENV": "production",
         "APP_DEBUG": "true",
         "APP_URL": "",
+        "LOG_CHANNEL": "stderr",
  
         "APP_CONFIG_CACHE": "/tmp/config.php",
         "APP_EVENTS_CACHE": "/tmp/events.php",
@@ -47,7 +27,6 @@
         "VIEW_COMPILED_PATH": "/tmp",
  
         "CACHE_DRIVER": "array",
-        "LOG_CHANNEL": "stderr",
         "SESSION_DRIVER": "cookie"
     }
 }
