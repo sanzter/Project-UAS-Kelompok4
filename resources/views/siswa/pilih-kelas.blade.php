@@ -1,4 +1,4 @@
-@extends('layouts.app') @section('content')
+@extends('layouts.siswa') @section('page-title', 'Pilih Kelas') @section('siswa-content')
     <div class="max-w-2xl mx-auto px-6 py-12">
 
         <div class="text-center mb-10">
