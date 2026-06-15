@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Grade;
+use App\Models\Kelas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -73,35 +74,31 @@ class SiswaController extends Controller
     // -------------------------------------------------------
     public function pilihKelas()
     {
-        $user = Auth::user();
-
-        // Jika siswa sudah punya kelas, cegah mereka memilih lagi dan arahkan ke jadwal
-        if ($user->kelas_id) {
-            return redirect()->route('siswa.jadwal')->with('info', 'Anda sudah tergabung dalam kelas.');
-        }
-
-        // Ambil semua daftar kelas yang tersedia dari database
-        $kelasList = \App\Models\Kelas::all();
-
+        // Mengambil daftar nama kelas secara unik (menghilangkan duplikat)
+        $kelasList = \App\Models\Kelas::select('nama_kelas')->distinct()->get();
+        
         return view('siswa.pilih-kelas', compact('kelasList'));
     }
 
     public function simpanKelas(\Illuminate\Http\Request $request)
     {
+        // Validasi yang dicari sekarang adalah nama_kelas
         $request->validate([
-            'kelas_id' => 'required|exists:kelas,id'
-        ], [
-            'kelas_id.required' => 'Anda harus memilih kelas terlebih dahulu.',
-            'kelas_id.exists' => 'Kelas yang dipilih tidak valid.'
+            'nama_kelas' => 'required|string'
         ]);
 
-        $user = Auth::user();
+        // Karena 1 kelas punya banyak mapel, kita ambil ID dari mapel pertama saja
+        // sebagai 'perwakilan' bahwa siswa tersebut masuk di kelas itu.
+        $kelasPerwakilan = Kelas::where('nama_kelas', $request->nama_kelas)->first();
 
-        // Simpan pilihan kelas ke profil siswa
-        $user->kelas_id = $request->kelas_id;
-        $user->save();
+        if ($kelasPerwakilan) {
+            auth()->user()->update([
+                'kelas_id' => $kelasPerwakilan->id
+            ]);
+            return redirect()->route('siswa.dashboard')->with('success', 'Kelas berhasil dipilih!');
+        }
 
-        return redirect()->route('siswa.jadwal')->with('success', 'Selamat! Anda berhasil bergabung ke kelas.');
+        return back()->with('error', 'Kelas tidak ditemukan.');
     }
 
     // -------------------------------------------------------
@@ -109,20 +106,22 @@ class SiswaController extends Controller
     // -------------------------------------------------------
     public function jadwal()
     {
-        $user = Auth::user();
+        $user = auth()->user();
 
-        // Jika siswa belum memilih kelas, paksa mereka ke halaman pemilihan kelas
+        // Jika belum pilih kelas, arahkan ke halaman pilih
         if (!$user->kelas_id) {
-            return redirect()->route('siswa.pilih-kelas')->with('warning', 'Silakan pilih kelas terlebih dahulu untuk melihat jadwal Anda.');
+            return redirect()->route('siswa.pilih-kelas');
         }
 
-        // Ambil jadwal khusus untuk kelas yang dipilih siswa ini
-        $jadwalsiswa = \App\Models\Jadwal::where('kelas_id', $user->kelas_id)
-            ->orderBy('hari')
-            ->orderBy('jam_mulai')
-            ->get();
+        // Ambil nama kelas siswa saat ini (Misal: "XII MIPA 1")
+        $namaKelasSiswa = $user->kelas->nama_kelas;
 
-        return view('siswa.jadwal', compact('jadwalsiswa'));
+        // Ambil SEMUA jadwal yang ditujukan untuk kelas dengan nama tersebut
+        $jadwalSiswa = \App\Models\Jadwal::whereHas('kelas', function($query) use ($namaKelasSiswa) {
+            $query->where('nama_kelas', $namaKelasSiswa);
+        })->with('kelas.guru')->get();
+
+        return view('siswa.jadwal', compact('jadwalSiswa'));
     }
 
     public function ajukanKeluar() 
