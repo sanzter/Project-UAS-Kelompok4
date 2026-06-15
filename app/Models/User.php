@@ -12,10 +12,11 @@ class User extends Authenticatable
 
     protected $fillable = [
         'name',
-        'username',  // ← tambah ini
+        'username',
         'email',
         'password',
         'role',
+        'kelas_id', // ← Tambahan baru agar siswa bisa masuk kelas
     ];
 
     protected $hidden = [
@@ -76,8 +77,19 @@ class User extends Authenticatable
         };
     }
 
+    // -------------------------------------------------------
+    // Relasi Database
+    // -------------------------------------------------------
+
+    // Untuk Guru: Guru mengajar kelas apa saja?
     public function kelasDiampu()
     {
         return $this->hasMany(Kelas::class, 'guru_id');
+    }
+
+    // Untuk Siswa: Siswa ini berada di kelas mana? (Tambahan Baru)
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class, 'kelas_id');
     }
 }

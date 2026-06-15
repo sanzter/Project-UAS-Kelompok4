@@ -90,5 +90,13 @@ Route::middleware(['auth', 'siswa'])
     Route::get('/nilai-saya', [SiswaController::class, 'nilaiSaya'])->name('nilai-saya');
     Route::get('/jadwal',     [SiswaController::class, 'jadwal'])->name('jadwal');
     Route::get('/kelas',      [SiswaController::class, 'kelas'])->name('kelas');
+    Route::get('/siswa/jadwal', [SiswaController::class, 'jadwal'])->name('siswa.jadwal');
 });
+
+// Rute untuk Pemilihan Kelas oleh Siswa
+Route::get('/siswa/pilih-kelas', [\App\Http\Controllers\SiswaController::class, 'pilihKelas'])->name('siswa.pilih-kelas');
+Route::post('/siswa/pilih-kelas', [\App\Http\Controllers\SiswaController::class, 'simpanKelas'])->name('siswa.simpan-kelas');
+
+// Rute untuk Jadwal
+Route::get('/siswa/jadwal', [\App\Http\Controllers\SiswaController::class, 'jadwal'])->name('siswa.jadwal');
 

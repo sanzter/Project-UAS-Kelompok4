@@ -14,4 +14,11 @@ class Kelas extends Model
     {
         return $this->belongsTo(User::class, 'guru_id');
     }
+
+    // Relasi: Kelas ini memiliki Siswa siapa saja?
+    public function siswa()
+    {
+        // Hanya mengambil user yang role-nya 'siswa'
+        return $this->hasMany(User::class, 'kelas_id')->where('role', 'siswa');
+    }
 }
