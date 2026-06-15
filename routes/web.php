@@ -44,7 +44,7 @@ Route::middleware(['auth', 'admin'])
     Route::post('/kelas', [AdminController::class, 'storeKelas'])->name('store-kelas');
     Route::post('/admin/siswa/{id}/reset-kelas', [\App\Http\Controllers\AdminController::class, 'resetKelasSiswa'])->name('admin.siswa.reset-kelas');
     Route::get('/admin/kelola-siswa', [\App\Http\Controllers\AdminController::class, 'kelolaSiswa'])->name('admin.kelola-siswa');
-    Route::get('/admin/permintaan-keluar', [AdminController::class, 'kelolaSiswa'])->name('admin.permintaan-keluar');
+    Route::get('/permintaan-keluar', [AdminController::class, 'kelolaSiswa'])->name('permintaan-keluar');
 
     // Kelola user
     Route::get('/kelola-user', [AdminController::class, 'kelolaUser'])->name('kelola-user');
