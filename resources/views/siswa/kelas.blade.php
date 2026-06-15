@@ -37,23 +37,21 @@
                     </div>
                 </div>
             </div>
-
-            <div class="mt-8 border-t pt-6">
-                <h3 class="font-bold text-gray-800 mb-2">Pengaturan Kelas</h3>
-                @if (auth()->user()->status_keluar)
-                    <div class="p-3 bg-amber-50 text-amber-700 rounded-lg text-sm italic">
-                        Permintaan keluar kelas sedang diproses oleh Admin.
-                    </div>
-                @else
-                    <form action="{{ route('siswa.ajukan-keluar') }}" method="POST"
-                        onsubmit="return confirm('Yakin ingin mengajukan keluar dari kelas? Admin akan meninjau permintaan Anda.');">
-                        @csrf
-                        <button type="submit" class="text-rose-600 font-bold text-sm hover:underline">
-                            Ajukan Keluar Kelas
-                        </button>
-                    </form>
-                @endif
-            </div>
+        </div> <div class="mt-8 border-t pt-6">
+            <h3 class="font-bold text-gray-800 mb-2">Pengaturan Kelas</h3>
+            @if (auth()->user()->status_keluar)
+                <div class="p-3 bg-amber-50 text-amber-700 rounded-lg text-sm italic">
+                    Permintaan keluar kelas sedang diproses oleh Admin.
+                </div>
+            @else
+                <form action="{{ route('siswa.ajukan-keluar') }}" method="POST"
+                    onsubmit="return confirm('Yakin ingin mengajukan keluar dari kelas? Admin akan meninjau permintaan Anda.');">
+                    @csrf
+                    <button type="submit" class="text-rose-600 font-bold text-sm hover:underline">
+                        Ajukan Keluar Kelas
+                    </button>
+                </form>
+            @endif
         </div>
-    </div>
-@endsection
+        
+    </div> @endsection

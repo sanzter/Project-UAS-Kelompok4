@@ -125,9 +125,17 @@ class SiswaController extends Controller
         return view('siswa.jadwal', compact('jadwalsiswa'));
     }
 
-    public function ajukanKeluar()
+    public function ajukanKeluar() 
     {
-        auth()->user()->update(['status_keluar' => true]);
+        // Ambil data user yang sedang login
+        $user = auth()->user();
+        
+        // Ubah statusnya secara manual
+        $user->status_keluar = true;
+        
+        // Simpan ke database
+        $user->save();
+        
         return back()->with('success', 'Permintaan keluar kelas telah dikirim ke Admin.');
     }
 }
