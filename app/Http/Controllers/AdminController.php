@@ -22,7 +22,7 @@ class AdminController extends Controller
             'rataRata'    => round(Grade::query()->avg('nilai') ?? 0, 1),
             'totalNilai'  => Grade::query()->count(),
             'totalKelas'  => $totalKelas = Kelas::query()->count(),
-            'totalMapel'  => Grade::query()->distinct('mata_pelajaran')->count('mata_pelajaran'),
+            'totalMapel'  => $totalMapel = Kelas::query()->distinct('mata_pelajaran')->count('mata_pelajaran'),
             'siswaRendah' => Grade::query()->where('nilai', '<', 75)->count(),
             'userTerbaru' => User::query()->latest()->take(5)->get(),
         ]);
