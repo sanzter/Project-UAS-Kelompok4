@@ -82,7 +82,7 @@ class SiswaController extends Controller
 
         // Ambil semua daftar kelas yang tersedia dari database
         $kelasList = \App\Models\Kelas::all();
-        
+
         return view('siswa.pilih-kelas', compact('kelasList'));
     }
 
@@ -96,7 +96,7 @@ class SiswaController extends Controller
         ]);
 
         $user = Auth::user();
-        
+
         // Simpan pilihan kelas ke profil siswa
         $user->kelas_id = $request->kelas_id;
         $user->save();
@@ -118,10 +118,16 @@ class SiswaController extends Controller
 
         // Ambil jadwal khusus untuk kelas yang dipilih siswa ini
         $jadwalsiswa = \App\Models\Jadwal::where('kelas_id', $user->kelas_id)
-                        ->orderBy('hari')
-                        ->orderBy('jam_mulai')
-                        ->get();
+            ->orderBy('hari')
+            ->orderBy('jam_mulai')
+            ->get();
 
         return view('siswa.jadwal', compact('jadwalsiswa'));
+    }
+
+    public function ajukanKeluar()
+    {
+        auth()->user()->update(['status_keluar' => true]);
+        return back()->with('success', 'Permintaan keluar kelas telah dikirim ke Admin.');
     }
 }
