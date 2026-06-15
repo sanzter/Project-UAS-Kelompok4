@@ -87,19 +87,18 @@ Route::middleware(['auth', 'siswa'])
     ->prefix('siswa')
     ->name('siswa.')
     ->group(function () {
-
-    Route::get('/dashboard',  [SiswaController::class, 'dashboard'])->name('dashboard');
-    Route::get('/nilai-saya', [SiswaController::class, 'nilaiSaya'])->name('nilai-saya');
-    Route::get('/jadwal',     [SiswaController::class, 'jadwal'])->name('jadwal');
-    Route::get('/kelas',      [SiswaController::class, 'kelas'])->name('kelas');
-    Route::get('/siswa/jadwal', [SiswaController::class, 'jadwal'])->name('siswa.jadwal');
-    Route::post('/siswa/ajukan-keluar', [\App\Http\Controllers\SiswaController::class, 'ajukanKeluar'])->name('siswa.ajukan-keluar');
-});
-
-// Rute untuk Pemilihan Kelas oleh Siswa
-Route::get('/siswa/pilih-kelas', [\App\Http\Controllers\SiswaController::class, 'pilihKelas'])->name('siswa.pilih-kelas');
-Route::post('/siswa/pilih-kelas', [\App\Http\Controllers\SiswaController::class, 'simpanKelas'])->name('siswa.simpan-kelas');
-
-// Rute untuk Jadwal
-Route::get('/siswa/jadwal', [\App\Http\Controllers\SiswaController::class, 'jadwal'])->name('siswa.jadwal');
+        
+        // Dashboard & Profil
+        Route::get('/dashboard', [SiswaController::class, 'dashboard'])->name('dashboard');
+        Route::get('/nilai-saya', [SiswaController::class, 'nilaiSaya'])->name('nilai-saya');
+        
+        // Kelas & Jadwal
+        Route::get('/kelas', [SiswaController::class, 'kelas'])->name('kelas');
+        Route::get('/jadwal', [SiswaController::class, 'jadwal'])->name('jadwal');
+        Route::post('/ajukan-keluar', [SiswaController::class, 'ajukanKeluar'])->name('ajukan-keluar');
+        
+        // Pemilihan Kelas
+        Route::get('/pilih-kelas', [SiswaController::class, 'pilihKelas'])->name('pilih-kelas');
+        Route::post('/pilih-kelas', [SiswaController::class, 'simpanKelas'])->name('simpan-kelas');
+    });
 
