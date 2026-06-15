@@ -146,7 +146,8 @@ class AdminController extends Controller
 
     public function kelas()
     {
-        $kelasList = Kelas::with('guru')->latest()->get();
+        // Tambahkan 'jadwal' di dalam with()
+        $kelasList = Kelas::with(['guru', 'jadwal'])->latest()->get();
         $gurus = User::query()->where('role', 'guru')->orderBy('name')->get();
 
         return view('admin.kelas', compact('kelasList', 'gurus'));
@@ -154,26 +155,28 @@ class AdminController extends Controller
 
     public function storeKelas(Request $request)
     {
-        // 1. Validasi inputan termasuk jadwal baru
         $request->validate([
             'nama_kelas'     => 'required|string|max:255',
-            'guru_id'        => 'required|exists:users,id', // Diubah menjadi required agar kelas pasti punya guru
+            'guru_id'        => 'required|exists:users,id',
             'mata_pelajaran' => 'required|string|max:255',
             'hari'           => 'required|string',
-            'jam_mulai'      => 'required|date_format:H:i',
-            'jam_selesai'    => 'required|date_format:H:i|after:jam_mulai',
-        ], [
-            'jam_selesai.after' => 'Jam selesai harus lebih dari jam mulai.'
+            'jam_mulai'      => 'required',
+            'jam_selesai'    => 'required|after:jam_mulai',
         ]);
 
-        // 2. Simpan semua data ke tabel kelas
-        Kelas::create([
+        // 1. Simpan ke tabel Kelas
+        $kelas = Kelas::create([
             'nama_kelas'     => $request->nama_kelas,
             'guru_id'        => $request->guru_id,
             'mata_pelajaran' => $request->mata_pelajaran,
-            'hari'           => $request->hari,
-            'jam_mulai'      => $request->jam_mulai,
-            'jam_selesai'    => $request->jam_selesai,
+        ]);
+
+        // 2. Simpan ke tabel Jadwals menggunakan ID kelas yang baru dibuat
+        \App\Models\Jadwal::create([
+            'kelas_id'    => $kelas->id,
+            'hari'        => $request->hari,
+            'jam_mulai'   => $request->jam_mulai,
+            'jam_selesai' => $request->jam_selesai,
         ]);
 
         return back()->with('success', 'Data kelas dan jadwal berhasil ditambahkan!');

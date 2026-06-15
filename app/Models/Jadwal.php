@@ -14,8 +14,7 @@ class Jadwal extends Model
         'kelas_id',
         'hari',
         'jam_mulai',
-        'jam_selesai',
-        'mata_pelajaran', // <-- Tambahan baru
+        'jam_selesai'
     ];
 
     // Relasi: Jadwal ini milik Kelas apa?

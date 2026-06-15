@@ -21,4 +21,9 @@ class Kelas extends Model
         // Hanya mengambil user yang role-nya 'siswa'
         return $this->hasMany(User::class, 'kelas_id')->where('role', 'siswa');
     }
+
+    public function jadwal()
+    {
+        return $this->hasOne(Jadwal::class, 'kelas_id');
+    }
 }
