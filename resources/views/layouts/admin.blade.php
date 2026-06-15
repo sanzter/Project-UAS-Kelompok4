@@ -81,7 +81,7 @@
                     <i class="fas fa-users-gear mr-3 w-5 text-center"></i> Kelola User
                 </a>
                 <a href="{{ route('admin.permintaan-keluar') }}"
-                    class="flex items-center space-x-3 p-3 rounded-lg hover:bg-white/10 transition">
+                    class="admin-sidebar-item {{ request()->routeIs('admin.permintaan-keluar') ? 'active' : '' }}">
                     <i class="fas fa-user-times mr-3 w-5 text-center"></i> Permintaan Keluar
                     @if (\App\Models\User::where('status_keluar', true)->count() > 0)
                         <span class="ml-auto bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-full">
