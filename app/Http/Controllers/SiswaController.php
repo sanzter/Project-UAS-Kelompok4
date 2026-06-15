@@ -107,11 +107,11 @@ class SiswaController extends Controller
         }
 
         // Ambil jadwal khusus untuk kelas yang dipilih siswa ini
-        $jadwalSiswa = \App\Models\Jadwal::where('kelas_id', $user->kelas_id)
+        $jadwalsiswa = \App\Models\Jadwal::where('kelas_id', $user->kelas_id)
                         ->orderBy('hari')
                         ->orderBy('jam_mulai')
                         ->get();
 
-        return view('siswa.jadwal', compact('jadwalSiswa'));
+        return view('siswa.jadwal', compact('jadwalsiswa'));
     }
 }
