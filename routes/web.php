@@ -44,6 +44,7 @@ Route::middleware(['auth', 'admin'])
     Route::post('/kelas', [AdminController::class, 'storeKelas'])->name('store-kelas');
     Route::post('/admin/siswa/{id}/reset-kelas', [\App\Http\Controllers\AdminController::class, 'resetKelasSiswa'])->name('admin.siswa.reset-kelas');
     Route::get('/admin/kelola-siswa', [\App\Http\Controllers\AdminController::class, 'kelolaSiswa'])->name('admin.kelola-siswa');
+    Route::get('/admin/permintaan-keluar', [AdminController::class, 'kelolaSiswa'])->name('admin.permintaan-keluar');
 
     // Kelola user
     Route::get('/kelola-user', [AdminController::class, 'kelolaUser'])->name('kelola-user');
@@ -96,7 +97,6 @@ Route::middleware(['auth', 'siswa'])
         Route::get('/kelas', [SiswaController::class, 'kelas'])->name('kelas');
         Route::get('/jadwal', [SiswaController::class, 'jadwal'])->name('jadwal');
         Route::post('/ajukan-keluar', [SiswaController::class, 'ajukanKeluar'])->name('ajukan-keluar');
-        Route::get('/admin/permintaan-keluar', [AdminController::class, 'kelolaSiswa'])->name('admin.permintaan-keluar');
         
         // Pemilihan Kelas
         Route::get('/pilih-kelas', [SiswaController::class, 'pilihKelas'])->name('pilih-kelas');
