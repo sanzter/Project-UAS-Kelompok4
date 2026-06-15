@@ -25,7 +25,7 @@ class SiswaController extends Controller
         })->values(); // Reset array keys
 
         return view('siswa.dashboard', [
-            'namaKelas'      => 'X IPA 1', // sesuaikan jika ada relasi kelas
+            'namaKelas'      => $siswa->kelas->nama_kelas ?? 'Belum memilih kelas', // sesuaikan jika ada relasi kelas
             'rataRata'       => $grades->isNotEmpty() ? round($grades->avg('nilai'), 1) : null,
             'nilaiTertinggi' => $grades->isNotEmpty() ? $grades->max('nilai') : null,
             'nilaiMinimum'   => $grades->isNotEmpty() ? $grades->min('nilai') : null,
