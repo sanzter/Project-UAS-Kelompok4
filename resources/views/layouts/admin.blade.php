@@ -82,8 +82,7 @@
                 </a>
                 <a href="{{ route('admin.permintaan-keluar') }}"
                     class="flex items-center space-x-3 p-3 rounded-lg hover:bg-white/10 transition">
-                    <i class="fas fa-user-times"></i>
-                    <span>Permintaan Keluar</span>
+                    <i class="fas fa-user-times mr-3 w-5 text-center"></i> Permintaan Keluar
                     @if (\App\Models\User::where('status_keluar', true)->count() > 0)
                         <span class="ml-auto bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-full">
                             {{ \App\Models\User::where('status_keluar', true)->count() }}

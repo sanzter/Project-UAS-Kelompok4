@@ -1,6 +1,6 @@
 @extends('layouts.admin') 
-
-@section('content')
+@section('page-title', 'Kelola Siswa')
+@section('admin-content')
 <div class="px-6 py-8">
     <div class="mb-8">
         <h2 class="text-2xl font-bold text-gray-800">Kelola Data Siswa</h2>
