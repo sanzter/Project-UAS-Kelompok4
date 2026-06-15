@@ -96,6 +96,7 @@ Route::middleware(['auth', 'siswa'])
         Route::get('/kelas', [SiswaController::class, 'kelas'])->name('kelas');
         Route::get('/jadwal', [SiswaController::class, 'jadwal'])->name('jadwal');
         Route::post('/ajukan-keluar', [SiswaController::class, 'ajukanKeluar'])->name('ajukan-keluar');
+        Route::get('/admin/permintaan-keluar', [AdminController::class, 'kelolaSiswa'])->name('admin.permintaan-keluar');
         
         // Pemilihan Kelas
         Route::get('/pilih-kelas', [SiswaController::class, 'pilihKelas'])->name('pilih-kelas');
