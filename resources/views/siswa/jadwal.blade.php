@@ -1,4 +1,7 @@
-@extends('layouts.app') @section('content')
+@extends('layouts.siswa')
+@section('page-title', 'Jadwal Pelajaran')
+@section('siswa-content')
+
 <div class="px-6 py-8">
     <div class="mb-8">
         <h2 class="text-2xl font-bold text-gray-800">Jadwal Pelajaran</h2>
@@ -24,7 +27,7 @@
                 </thead>
                 <tbody class="divide-y divide-gray-100">
                     
-                    @forelse ($jadwalsiswa as $jadwal)
+                    @forelse ($jadwalSiswa as $jadwal)
                     <tr class="hover:bg-gray-50 transition duration-200">
                         <td class="px-6 py-4 text-sm font-medium text-gray-900">
                             {{ $jadwal->hari }}
