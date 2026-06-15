@@ -15,13 +15,15 @@ class AdminController extends Controller
     // -------------------------------------------------------
     public function dashboard()
     {
+        $totalKelas = Kelas::distinct()->count('nama_kelas');
+
         return view('admin.dashboard', [
             'totalUser'   => User::query()->count(),
             'totalGuru'   => User::query()->where('role', 'guru')->count(),
             'totalSiswa'  => User::query()->where('role', 'siswa')->count(),
             'rataRata'    => round(Grade::query()->avg('nilai') ?? 0, 1),
             'totalNilai'  => Grade::query()->count(),
-            'totalKelas'  => $totalKelas = Kelas::query()->count(),
+            'totalKelas'  => $totalKelas,
             'totalMapel'  => $totalMapel = Kelas::query()->distinct('mata_pelajaran')->count('mata_pelajaran'),
             'siswaRendah' => Grade::query()->where('nilai', '<', 75)->count(),
             'userTerbaru' => User::query()->latest()->take(5)->get(),
