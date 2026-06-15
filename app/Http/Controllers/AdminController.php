@@ -177,6 +177,7 @@ class AdminController extends Controller
             'hari'        => $request->hari,
             'jam_mulai'   => $request->jam_mulai,
             'jam_selesai' => $request->jam_selesai,
+            'mata_pelajaran' => $request->mata_pelajaran,
         ]);
 
         return back()->with('success', 'Data kelas dan jadwal berhasil ditambahkan!');
@@ -216,10 +217,10 @@ class AdminController extends Controller
     public function destroyKelas($id)
     {
         $kelas = Kelas::findOrFail($id);
-        
+
         // Simpan nama kelas untuk notifikasi
         $nama_kelas = $kelas->nama_kelas;
-        
+
         $kelas->delete();
 
         return back()->with('success', "Kelas {$nama_kelas} berhasil dihapus!");
