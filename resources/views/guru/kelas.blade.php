@@ -1,4 +1,7 @@
-@extends('layouts.app') @section('content')
+@extends('layouts.guru')
+@section('page-title', 'Kelas Saya')
+@section('guru-content')
+
 <div class="px-6 py-8">
     <div class="mb-8">
         <h2 class="text-2xl font-bold text-gray-800">Kelas Saya</h2>
