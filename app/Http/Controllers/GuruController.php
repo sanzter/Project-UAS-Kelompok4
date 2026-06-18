@@ -78,4 +78,21 @@ class GuruController extends Controller
         $kelasSaya = Auth::user()->kelasDiampu; // Ambil data dari relasi
         return view('guru.kelas', compact('kelasSaya'));
     }
+
+    // -------------------------------------------------------
+    // Jadwal Mengajar Guru
+    // -------------------------------------------------------
+    public function jadwal()
+    {
+        // Ambil semua jadwal dari kelas di mana guru_id adalah guru yang sedang login
+        $jadwalGuru = \App\Models\Jadwal::whereHas('kelas', function($query) {
+            $query->where('guru_id', auth()->id());
+        })
+        ->with('kelas') // Bawa data kelasnya juga
+        ->orderBy('hari')
+        ->orderBy('jam_mulai')
+        ->get();
+
+        return view('guru.jadwal', compact('jadwalGuru'));
+    }
 }

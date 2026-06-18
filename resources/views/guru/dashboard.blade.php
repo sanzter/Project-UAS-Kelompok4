@@ -68,13 +68,6 @@
                     </div>
                     <span class="text-sm font-bold text-slate-700">Kelas Saya</span>
                 </a>
-                <a href="{{ route('guru.jadwal') }}"
-                    class="flex flex-col items-center justify-center p-5 bg-cyan-50 hover:bg-cyan-100 rounded-2xl transition text-center group">
-                    <div class="w-12 h-12 bg-cyan-500 group-hover:bg-cyan-600 rounded-xl flex items-center justify-center mb-3 transition">
-                        <i class="fas fa-calendar-alt text-white text-lg"></i>
-                    </div>
-                    <span class="text-sm font-bold text-slate-700">Jadwal Mengajar</span>
-                </a>
                 <div class="flex flex-col items-center justify-center p-5 bg-slate-50 rounded-2xl text-center opacity-50 cursor-not-allowed">
                     <div class="w-12 h-12 bg-slate-300 rounded-xl flex items-center justify-center mb-3">
                         <i class="fas fa-file-export text-white text-lg"></i>
