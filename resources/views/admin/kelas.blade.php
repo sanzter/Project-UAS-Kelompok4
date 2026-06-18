@@ -23,7 +23,7 @@
                         <h3 class="text-lg font-bold text-slate-800">Buat Kelas Baru</h3>
                     </div>
 
-                    <form action="{{ route('admin.store-kelas') }}" method="POST">
+                    <form action="{{ route('admin.store-kelas') }}" method="POST" onsubmit="const btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.classList.add('opacity-50', 'cursor-not-allowed'); btn.innerText = 'Menyimpan...';">
                         @csrf
                         <div class="space-y-5">
                             <div>

@@ -93,6 +93,8 @@ class GuruController extends Controller
         ->orderBy('jam_mulai')
         ->get();
 
+        dd($jadwalGuru); // Debug: lihat data jadwal yang diambil
+
         return view('guru.jadwal', compact('jadwalGuru'));
     }
 }
