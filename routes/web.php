@@ -74,7 +74,7 @@ Route::middleware(['auth', 'guru'])
     ->group(function () {
 
     Route::get('/dashboard',    [GuruController::class, 'dashboard'])->name('dashboard');
-    Route::post('/jadwal', [AdminController::class, 'storeJadwal'])->name('store-jadwal');
+    Route::post('/jadwal', [GuruController::class, 'jadwal'])->name('jadwal');
 
     // Nilai
     Route::get('/input-nilai',  [GuruController::class, 'inputNilai'])->name('input-nilai');
