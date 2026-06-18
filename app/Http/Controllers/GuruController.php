@@ -84,11 +84,8 @@ class GuruController extends Controller
     // -------------------------------------------------------
     public function jadwal()
     {
-        // Kita BYPASS tabel jadwal, langsung ambil dari tabel Kelas 
-        // (karena cara ini sudah terbukti berhasil di menu "Kelas Saya")
-        $jadwalGuru = \App\Models\Kelas::where('guru_id', auth()->id())
-                        ->with('jadwal') // Bawa serta jadwalnya jika ada
-                        ->get();
+
+        $jadwalGuru = Auth::user()->kelasDiampu()->with('jadwal')->get();
 
         return view('guru.jadwal', compact('jadwalGuru'));
     }
