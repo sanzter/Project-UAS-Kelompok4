@@ -94,12 +94,8 @@
                     <i class="fas fa-school mr-3 w-5 text-center text-emerald-400"></i></i> Kelas Saya
                 </a>
                 <a href="{{ route('guru.jadwal') }}"
-                    class="flex flex-col items-center justify-center p-5 bg-cyan-50 hover:bg-cyan-100 rounded-2xl transition text-center group">
-                    <div
-                        class="w-12 h-12 bg-cyan-500 group-hover:bg-cyan-600 rounded-xl flex items-center justify-center mb-3 transition">
-                        <i class="fas fa-calendar-alt text-white text-lg"></i>
-                    </div>
-                    <span class="text-sm font-bold text-slate-700">Jadwal Mengajar</span>
+                    class="guru-sidebar-item {{ request()->routeIs('guru.jadwal') ? 'active' : '' }}">
+                    <i class="fas fa-calendar-alt mr-3 w-5 text-center text-emerald-400"></i> Jadwal Mengajar
                 </a>
             </nav>
 

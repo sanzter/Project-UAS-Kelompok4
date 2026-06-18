@@ -27,7 +27,7 @@
                 </thead>
                 <tbody class="divide-y divide-gray-100">
                     
-                    @forelse ($jadwalSiswa as $jadwal)
+                    @forelse ($jadwalGuru as $jadwal)
                     <tr class="hover:bg-gray-50 transition duration-200">
                         <td class="px-6 py-4 text-sm font-medium text-gray-900">
                             {{ $jadwal->hari }}
