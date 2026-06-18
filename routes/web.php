@@ -42,7 +42,6 @@ Route::middleware(['auth', 'admin'])
 
     Route::get('/dashboard',   [AdminController::class, 'dashboard'])->name('dashboard');
     Route::post('/kelas', [AdminController::class, 'storeKelas'])->name('store-kelas');
-    Route::post('/jadwal', [AdminController::class, 'storeJadwal'])->name('store-jadwal');
     Route::post('/siswa/{id}/reset-kelas', [\App\Http\Controllers\AdminController::class, 'resetKelasSiswa'])->name('siswa.reset-kelas');
     Route::get('/kelola-siswa', [\App\Http\Controllers\AdminController::class, 'kelolaSiswa'])->name('admin.kelola-siswa');
     Route::get('/permintaan-keluar', [AdminController::class, 'kelolaSiswa'])->name('permintaan-keluar');
@@ -75,6 +74,7 @@ Route::middleware(['auth', 'guru'])
     ->group(function () {
 
     Route::get('/dashboard',    [GuruController::class, 'dashboard'])->name('dashboard');
+    Route::post('/jadwal', [AdminController::class, 'storeJadwal'])->name('store-jadwal');
 
     // Nilai
     Route::get('/input-nilai',  [GuruController::class, 'inputNilai'])->name('input-nilai');
