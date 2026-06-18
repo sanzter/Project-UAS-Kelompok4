@@ -43,3 +43,29 @@
                         {{-- Kolom Kelas --}}
                         <td class="px-6 py-4 font-bold text-emerald-600 text-lg">
                             {{ $jadwal->kelas->nama_kelas ?? 'Kelas Dihapus' }}
+                        </td>
+                        
+                        {{-- Kolom Mata Pelajaran --}}
+                        <td class="px-6 py-4 font-bold text-slate-600">
+                            {{ $jadwal->mata_pelajaran }}
+                        </td>
+                        
+                    </tr>
+                    @empty
+                    {{-- Tampilan jika jadwal kosong --}}
+                    <tr>
+                        <td colspan="4" class="px-6 py-16 text-center">
+                            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-50 mb-4">
+                                <i class="fas fa-calendar-times text-2xl text-slate-300"></i>
+                            </div>
+                            <h3 class="text-slate-500 font-bold">Belum ada jadwal</h3>
+                            <p class="text-sm text-slate-400 mt-1">Anda belum ditugaskan untuk mengajar kelas manapun saat ini.</p>
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@endsection
