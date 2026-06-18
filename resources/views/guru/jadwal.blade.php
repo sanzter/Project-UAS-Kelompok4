@@ -22,37 +22,46 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-50">
-                    {{-- Melakukan perulangan data dari $jadwalGuru --}}
-                    @forelse($jadwalGuru as $jadwal)
+                    {{-- Kita ganti variabel as-nya menjadi $kelas --}}
+                    @forelse($jadwalGuru as $kelas)
+                    
+                    {{-- LOGIKA PINTAR: Cek jadwalnya ada di tabel Jadwal atau tabel Kelas --}}
+                    @php
+                        $hari = $kelas->jadwal->hari ?? $kelas->hari ?? null;
+                        $jamMulai = $kelas->jadwal->jam_mulai ?? $kelas->jam_mulai ?? null;
+                        $jamSelesai = $kelas->jadwal->jam_selesai ?? $kelas->jam_selesai ?? null;
+                    @endphp
+
                     <tr class="hover:bg-slate-50 transition">
-                        
                         {{-- Kolom Hari --}}
                         <td class="px-6 py-4 font-bold text-slate-800">
-                            {{ $jadwal->hari }}
+                            {{ $hari ?? 'Belum diatur' }}
                         </td>
                         
                         {{-- Kolom Waktu --}}
                         <td class="px-6 py-4 text-sm text-slate-600">
+                            @if($jamMulai && $jamSelesai)
                             <span class="inline-flex items-center bg-slate-100 text-slate-600 py-1 px-3 rounded-lg font-medium">
                                 <i class="far fa-clock mr-2 text-slate-400"></i>
-                                {{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i') }} - 
-                                {{ \Carbon\Carbon::parse($jadwal->jam_selesai)->format('H:i') }}
+                                {{ \Carbon\Carbon::parse($jamMulai)->format('H:i') }} - 
+                                {{ \Carbon\Carbon::parse($jamSelesai)->format('H:i') }}
                             </span>
+                            @else
+                            <span class="text-xs italic text-slate-400">Belum diatur</span>
+                            @endif
                         </td>
                         
                         {{-- Kolom Kelas --}}
                         <td class="px-6 py-4 font-bold text-emerald-600 text-lg">
-                            {{ $jadwal->kelas->nama_kelas ?? 'Kelas Dihapus' }}
+                            {{ $kelas->nama_kelas }}
                         </td>
                         
                         {{-- Kolom Mata Pelajaran --}}
                         <td class="px-6 py-4 font-bold text-slate-600">
-                            {{ $jadwal->mata_pelajaran }}
+                            {{ $kelas->mata_pelajaran }}
                         </td>
-                        
                     </tr>
                     @empty
-                    {{-- Tampilan jika jadwal kosong --}}
                     <tr>
                         <td colspan="4" class="px-6 py-16 text-center">
                             <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-50 mb-4">
